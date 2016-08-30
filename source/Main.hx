@@ -9,6 +9,7 @@ class Main extends Sprite
 	public function new()
 	{
 		super();
-		addChild(new FlxGame(160, 144, MenuState)); // ampliado solo para pruebas.
+		addChild(new FlxGame(160, 144, MenuState, 3)); // ampliado solo para pruebas.//agrego el 3 q es el zoom o escala ya esta
+																					 //modificado en el project.xml
 	}
 }
