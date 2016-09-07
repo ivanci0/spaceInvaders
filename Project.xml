@@ -14,8 +14,6 @@
 	<!-- ____________________________ Window Settings ___________________________ -->
 
 	<!--These window settings apply to all targets-->
-	
-	<!--aca multiplique por 3 los valores q estaban ateriores 160 x 144-->
 	<window width="480" height="432" fps="60" background="#000000" hardware="true" vsync="true" />
 
 	<!--HTML5-specific-->

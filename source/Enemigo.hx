@@ -1,9 +1,8 @@
-package sprites;
+package;
 
 import flixel.FlxSprite;
 import flixel.system.FlxAssets.FlxGraphicAsset;
 import flixel.FlxG;
-
 
 /**
  * ...
@@ -16,7 +15,7 @@ class Enemigo extends FlxSprite
 	{
 		super(X, Y, SimpleGraphic);
 		
-		makeGraphic(12, 12, 0xFFFF000F);
+		makeGraphic(5, 5, 0xFFFF000F);
 		
 	}
 	
