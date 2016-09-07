@@ -33,5 +33,15 @@ class Personaje extends FlxSprite
  			if(x >= 0)
  			x -= 2;
  		}
+		if (FlxG.keys.pressed.UP)
+ 		{
+ 			if(y >= 0)
+ 			y -= 2;
+ 		}
+		if (FlxG.keys.pressed.DOWN)
+ 		{
+ 			if(y >= 0)
+ 			y += 2;
+ 		}
  	}
 }

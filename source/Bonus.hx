@@ -2,13 +2,12 @@ package;
 
 import flixel.FlxSprite;
 import flixel.system.FlxAssets.FlxGraphicAsset;
-import flixel.FlxG;
 
 /**
  * ...
- * @author ...
+ * @author Ivan Baigorria
  */
-class Enemigo extends FlxSprite
+class Bonus extends FlxSprite
 {
 
 	public function new(?X:Float=0, ?Y:Float=0, ?SimpleGraphic:FlxGraphicAsset) 
@@ -16,14 +15,7 @@ class Enemigo extends FlxSprite
 		super(X, Y, SimpleGraphic);
 		
 		makeGraphic(5, 5, 0xFFFF000F);
-		//velocity.y = 50;
-		
-	}
-	
-	override public function update(elapsed:Float):Void
-	{
-		super.update(elapsed);
-		
+		velocity.x = -50;
 	}
 	
 }
