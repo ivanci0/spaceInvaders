@@ -10,12 +10,12 @@ import flixel.FlxG;
  */
 class Personaje extends FlxSprite
 {
+	private var balaPersonaje:Bala;
 	public function new(?X:Float=0, ?Y:Float=0, ?SimpleGraphic:FlxGraphicAsset) 
 	{
 		super(X, Y, SimpleGraphic);
-		
 		makeGraphic(5, 5);
-		
+		balaPersonaje = new Bala();
 	}
 	
 	override public function update(elapsed:Float):Void
@@ -33,7 +33,25 @@ class Personaje extends FlxSprite
  			if(x >= 0)
  			x -= 2;
  		}
-		if (FlxG.keys.pressed.UP)
+		if (FlxG.keys.justPressed.SPACE) 
+		{
+			if (balaPersonaje.getPosicionada() == true) 
+			{
+				balaPersonaje.Disparar(this);
+			}
+		}
+		if (balaPersonaje.y < 0) 
+		{
+			balaPersonaje.Posicionar();
+		}
+ 	}
+	public function getBala(){
+		return balaPersonaje;
+	}
+}
+
+//para pruebas
+		/*if (FlxG.keys.pressed.UP)
  		{
  			if(y >= 0)
  			y -= 2;
@@ -42,6 +60,4 @@ class Personaje extends FlxSprite
  		{
  			if(y >= 0)
  			y += 2;
- 		}
- 	}
-}
+ 		}*/

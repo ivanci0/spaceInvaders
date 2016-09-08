@@ -3,37 +3,46 @@ package;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
+import flixel.math.FlxRandom;
 import flixel.text.FlxText;
-import flixel.ui.FlxButton;
-import flixel.math.FlxMath;
-import flixel.group.FlxGroup;
 import flixel.util.FlxTimer;
 
 class PlayState extends FlxState
 {
-	private var grupoEnemigo:FlxGroup = new FlxGroup();
+	private var grupoEnemigo:Array<Enemigo> = new Array<Enemigo>();
+	private var balas:Array<Bala> = new Array<Bala>();
 	private var nave:Personaje;
-	private var balaDePers:Bala;
 	private var bonus:Bonus;
-	private var lejos:Int = 1000;
+	//de prueba
+	private var prueba:Int = 10;
+	private var unNum:Int = 0;
+	private var enemPrueba:Enemigo;
+	private var genRandom:FlxRandom = new FlxRandom();
+	private var timer:FlxTimer = new FlxTimer();
 	override public function create():Void
 	{
 		super.create();
 		
 		nave = new Personaje(0, 130);
-		balaDePers = new Bala();
-		bonus = new Bonus(FlxG.height, 5);
+		bonus = new Bonus();
+		enemPrueba = new Enemigo(20, 40);
 		
 		for (i in 0...5) 
 		{
-			var enem:Enemigo = new Enemigo(20 + i*20,20);
-			grupoEnemigo.add(enem);
+			grupoEnemigo[i] = new Enemigo(20 + i * 10, 20);
+			add(grupoEnemigo[i]);
 		}
+		for (j in 0...2) 
+		{
+			balas[j] = new Bala();
+			add(balas[j]);
+		}
+		timer.start(10, null, 0);
 		
 		add(bonus);
  		add(nave);
-		add(balaDePers);
- 		add(grupoEnemigo);
+		add(enemPrueba);
+		add(nave.getBala());
 	}
 
 	override public function update(elapsed:Float):Void
@@ -41,40 +50,60 @@ class PlayState extends FlxState
 		super.update(elapsed);
 		
 		// colisiones
-		//		de enemigos con balas del jugador
+		ColisionConEnemigo();
+		ColisionConBonus();
+		ColisionConPersonaje();
+		ColisionEnemigoJugador();
+		
+		// pruba
+		if (prueba == 0) 
+		{
+			if (bonus.getPosicionada() == true) 
+			{
+				bonus.Mover();
+			}
+			balas[0].DispararEnemigo(grupoEnemigo[genRandom.int(0, grupoEnemigo.length-1)]);
+			prueba = 200;
+		}
+		else 
+		{
+			prueba--;
+		}
+	}
+	public function ColisionConEnemigo():Void{
 		for (i in 0...grupoEnemigo.length) 
 		{
-			if (FlxG.overlap(grupoEnemigo.members[i],balaDePers)) 
+			if (FlxG.overlap(grupoEnemigo[i],nave.getBala())) 
 			{
-				grupoEnemigo.members[i].destroy();
-				balaDePers.Posicionar();
+				grupoEnemigo[i].destroy();
+				nave.getBala().Posicionar();
 			}
 		}
-		//		de enemigos con el jugador
+	}
+	public function ColisionConBonus():Void{
+		if (FlxG.overlap(bonus,nave.getBala())) 
+		{
+			bonus.Posicionar();
+			nave.getBala().Posicionar();
+		}
+	}
+	public function ColisionConPersonaje():Void{
+		for (i in 0...balas.length) 
+		{
+			if (FlxG.overlap(nave,balas[i])) 
+			{
+				trace("Choca con nave");
+				balas[i].Posicionar();
+			}
+		}
+	}
+	public function ColisionEnemigoJugador():Void{
 		for (i in 0...grupoEnemigo.length) 
 		{
-			if (FlxG.overlap(grupoEnemigo.members[i],nave)) 
+			if (FlxG.overlap(grupoEnemigo[i],nave)) 
 			{
-				trace("choca");
+				trace("choca" + grupoEnemigo[i]);
 			}
-		}
-		// disparo de bala de personaje
-		if (FlxG.keys.justPressed.SPACE) 
-		{
-			if (balaDePers.y == lejos && balaDePers.x == lejos) 
-			{
-				balaDePers.Disparar(nave);
-			}
-		}
-		// para cuando la bala se va del rango
-		if (balaDePers.y < 0) 
-		{
-			balaDePers.Posicionar();
-		}
-		// para cuando el bonus se va de rango
-		if (bonus.x < 0) 
-		{
-			bonus.destroy();
 		}
 	}
 }
