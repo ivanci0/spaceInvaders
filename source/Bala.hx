@@ -1,8 +1,7 @@
 package;
 
+import flixel.FlxG;
 import flixel.FlxSprite;
-import flixel.group.FlxGroup;
-import flixel.system.FlxAssets.FlxGraphicAsset;
 
 /**
  * ...
@@ -10,27 +9,30 @@ import flixel.system.FlxAssets.FlxGraphicAsset;
  */
 class Bala extends FlxSprite
 {
-	private var posicionada:Bool;
-	public function new(?X:Float=0, ?Y:Float=0, ?SimpleGraphic:FlxGraphicAsset) 
+	private var posicionada:Bool;//mismo uso que alive de personaje
+	private var velocidad:Int = 100;//la velocidad que va a tener
+	public function new(?X:Float=0, ?Y:Float=0) 
 	{
-		super(X, Y, SimpleGraphic);
-		
-		makeGraphic(1, 1);
+		super(X, Y);
+		loadGraphic(AssetPaths.tenedor__png, false, 5, 10);
 		Posicionar();
 	}
 	override public function update(elapsed:Float):Void{
+		seVa();
 		super.update(elapsed);
 	}
-	public function Disparar(personaje:Personaje):Void{
-		y = personaje.y;
-		x = personaje.x;
-		velocity.y = -100;
-		posicionada = false;
-	}
-	public function DispararEnemigo(enemigo:Enemigo):Void{
-		y = enemigo.y;
-		x = enemigo.x;
-		velocity.y = 50;
+	public function Disparar(?personaje:Personaje = null, ?enemigo:Enemigo = null):Void{// no se pudo hacer una sobrecarga asi que se soluciono asi
+		if (personaje != null){
+			y = personaje.y + personaje.height / 2;//ubica la posicion en el centro de quien la dispara
+			x = personaje.x + personaje.width / 2;
+			velocity.y = -velocidad;// sale disparada
+		}
+		else if (enemigo != null){//lo mismo pero para el enemigo
+			y = enemigo.y + enemigo.height / 2;
+			x = enemigo.x + enemigo.width / 2;
+			velocity.y = velocidad / 2;
+		}
+		posicionada = false; //queda en false
 	}
 	public function Posicionar():Void{
 		x = 1000;
@@ -38,7 +40,12 @@ class Bala extends FlxSprite
 		velocity.y = 0;
 		posicionada = true;
 	}
-	public function getPosicionada():Bool{
+	public function getPosicionada():Bool{// porsi, no se como quiero usar el kill revive aca.... es lo mismo...
 		return posicionada;
+	}
+	public function seVa():Void{//verifica si se va y la vuelve a posicionar.
+		if (y < 0 || y > FlxG.height){
+			Posicionar();
+		}
 	}
 }

@@ -10,22 +10,23 @@ import flixel.util.FlxTimer;
 class PlayState extends FlxState
 {
 	private var grupoEnemigo:Array<Enemigo> = new Array<Enemigo>();
-	private var balas:Array<Bala> = new Array<Bala>();
+	private var balas:Array<AntiBala> = new Array<AntiBala>();
 	private var nave:Personaje;
 	private var bonus:Bonus;
 	//de prueba
-	private var prueba:Int = 10;
-	private var unNum:Int = 0;
-	private var enemPrueba:Enemigo;
-	private var genRandom:FlxRandom = new FlxRandom();
-	private var timer:FlxTimer = new FlxTimer();
+	//private var prueba:Int = 10;
+	//private var unNum:Int = 0;
+	//private var enemPrueba:Enemigo;
+	//private var otroEnem:Enemigo;
+	//private var genRandom:FlxRandom = new FlxRandom();
 	override public function create():Void
 	{
+		Reg.timer.start(10, elBonus, 0);
 		super.create();
-		
-		nave = new Personaje(0, 130);
+		nave = new Personaje(0, FlxG.height - 16);
 		bonus = new Bonus();
-		enemPrueba = new Enemigo(20, 40);
+		//enemPrueba = new Enemigo(40, 10);
+		//otroEnem = new Enemigo(50, 10);
 		
 		for (i in 0...5) 
 		{
@@ -34,76 +35,32 @@ class PlayState extends FlxState
 		}
 		for (j in 0...2) 
 		{
-			balas[j] = new Bala();
+			balas[j] = new AntiBala();
 			add(balas[j]);
 		}
-		timer.start(10, null, 0);
+		//timer.start(10, null, 0);
 		
 		add(bonus);
  		add(nave);
-		add(enemPrueba);
+		//add(enemPrueba);
+		//add(otroEnem);
 		add(nave.getBala());
 	}
 
 	override public function update(elapsed:Float):Void
-	{
-		super.update(elapsed);
-		
+	{		
 		// colisiones
-		ColisionConEnemigo();
-		ColisionConBonus();
-		ColisionConPersonaje();
-		ColisionEnemigoJugador();
+		Reg.ColisionBala(nave.getBala(), grupoEnemigo);
+		Reg.ColisionBala(nave.getBala(), bonus);
+		Reg.ColisionAntiBala(balas, nave);
+		Reg.ColisionEnemigoJugador(grupoEnemigo, nave);
 		
-		// pruba
-		if (prueba == 0) 
-		{
-			if (bonus.getPosicionada() == true) 
+		super.update(elapsed);
+	}
+	public function elBonus(timer:FlxTimer):Void{
+		if (bonus.getPosicionada()) 
 			{
 				bonus.Mover();
 			}
-			balas[0].DispararEnemigo(grupoEnemigo[genRandom.int(0, grupoEnemigo.length-1)]);
-			prueba = 200;
-		}
-		else 
-		{
-			prueba--;
-		}
-	}
-	public function ColisionConEnemigo():Void{
-		for (i in 0...grupoEnemigo.length) 
-		{
-			if (FlxG.overlap(grupoEnemigo[i],nave.getBala())) 
-			{
-				grupoEnemigo[i].destroy();
-				nave.getBala().Posicionar();
-			}
-		}
-	}
-	public function ColisionConBonus():Void{
-		if (FlxG.overlap(bonus,nave.getBala())) 
-		{
-			bonus.Posicionar();
-			nave.getBala().Posicionar();
-		}
-	}
-	public function ColisionConPersonaje():Void{
-		for (i in 0...balas.length) 
-		{
-			if (FlxG.overlap(nave,balas[i])) 
-			{
-				trace("Choca con nave");
-				balas[i].Posicionar();
-			}
-		}
-	}
-	public function ColisionEnemigoJugador():Void{
-		for (i in 0...grupoEnemigo.length) 
-		{
-			if (FlxG.overlap(grupoEnemigo[i],nave)) 
-			{
-				trace("choca" + grupoEnemigo[i]);
-			}
-		}
 	}
 }

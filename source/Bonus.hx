@@ -8,14 +8,13 @@ import flixel.FlxG;
  * ...
  * @author Ivan Baigorria
  */
-class Bonus extends Enemigo
+class Bonus extends FlxSprite
 {
 	private var posicionada:Bool;
-	public function new(?X:Float=0, ?Y:Float=0, ?SimpleGraphic:FlxGraphicAsset) 
+	public function new(?X:Float=0, ?Y:Float=0) 
 	{
-		super(X, Y, SimpleGraphic);
-		
-		makeGraphic(5, 5, 0xFFFF000F);
+		super(X, Y);
+		loadGraphic(AssetPaths.catblack__png, true, 16, 16);
 		Mover();
 	}
 	override public function update(elapsed:Float):Void{
