@@ -23,7 +23,7 @@ class Reg
 		}
 		else if (bonus!=null){
 			if (FlxG.overlap(bonus,bala)){
-				bonus.Posicionar();
+				bonus.kill();
 				bala.Posicionar();
 			}
 		}
@@ -36,6 +36,20 @@ class Reg
 			}
 		}
 	}
+	static public function posicionarEnemigos(?enemigos:Array<Enemigo>):Void{
+		var cantCol:Int = 5;
+		var posY:Int = 24;
+		var posX:Int = -16;
+		for (i in 0...enemigos.length - 1){
+			for (j in 0...cantCol){
+				posX += 24;
+				enemigos[i].x = posX;
+				enemigos[i].y = posY;
+			}
+			posY += 16;
+		}
+	}
+	
 	// no se para que esta (porque no colisionarian nunca) pero la pedia el tp
 	static public function ColisionEnemigoJugador(enemigos:Array<Enemigo>,jugador:Personaje):Void{
 		for (i in 0...enemigos.length){

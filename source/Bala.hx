@@ -2,6 +2,7 @@ package;
 
 import flixel.FlxG;
 import flixel.FlxSprite;
+import flixel.tweens.FlxTween;
 
 /**
  * ...
@@ -15,13 +16,14 @@ class Bala extends FlxSprite
 	{
 		super(X, Y);
 		loadGraphic(AssetPaths.tenedor__png, false, 5, 10);
+		//kill();
 		Posicionar();
 	}
 	override public function update(elapsed:Float):Void{
 		seVa();
 		super.update(elapsed);
 	}
-	public function Disparar(?personaje:Personaje = null, ?enemigo:Enemigo = null):Void{// no se pudo hacer una sobrecarga asi que se soluciono asi
+	public function salirDisparada(?personaje:Personaje = null, ?enemigo:Enemigo = null):Void{// no se pudo hacer una sobrecarga asi que se soluciono asi
 		if (personaje != null){
 			y = personaje.y + personaje.height / 2;//ubica la posicion en el centro de quien la dispara
 			x = personaje.x + personaje.width / 2;
@@ -40,12 +42,25 @@ class Bala extends FlxSprite
 		velocity.y = 0;
 		posicionada = true;
 	}
+	/*override public function kill():Void{
+		alive = false;
+		FlxTween.tween(this, { }, 0, { onComplete: finishKill });
+	}
+	public function finishKill(_):Void{
+		exists = false;
+	}
+	override public function revive(?personaje:Personaje = null, ?enemigo:Enemigo = null):Void 
+	{
+		salirDisparada(personaje,enemigo);
+		super.revive();
+	}*/
 	public function getPosicionada():Bool{// porsi, no se como quiero usar el kill revive aca.... es lo mismo...
 		return posicionada;
 	}
 	public function seVa():Void{//verifica si se va y la vuelve a posicionar.
 		if (y < 0 || y > FlxG.height){
 			Posicionar();
+			//kill();
 		}
 	}
 }

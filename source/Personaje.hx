@@ -85,7 +85,7 @@ class Personaje extends FlxSprite // un personaje "fuerte"
 	}
 	public function Disparar():Void{//agrega la animacion al disparo del tenedor
 		if (FlxG.keys.justPressed.SPACE && balaPersonaje.getPosicionada()){
-			balaPersonaje.Disparar(this);
+			balaPersonaje.salirDisparada(this);
 				switch (facing){
 					case FlxObject.LEFT:
 						animation.play("disIzq");
