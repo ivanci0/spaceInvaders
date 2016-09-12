@@ -13,7 +13,7 @@ class PlayState extends FlxState
 	private var balas:Array<AntiBala> = new Array<AntiBala>();
 	private var nave:Personaje;
 	private var bonus:Bonus;
-	private var cantEnemigos:Int = 15;
+	private var cantEnemigos:Int = 20;
 	//de prueba
 	//private var prueba:Int = 10;
 	//private var unNum:Int = 0;
@@ -30,13 +30,22 @@ class PlayState extends FlxState
 		bonus.kill();
 		//enemPrueba = new Enemigo(40, 10);
 		//otroEnem = new Enemigo(50, 10);
-		
+		var colum:Int = 8;
+		var fila:Int = 24;
+		var cantCol:Int = 5;
 		for (i in 0...cantEnemigos) 
 		{
-			grupoEnemigo[i] = new Enemigo();
+			if (cantCol == 0) 
+			{
+				fila += 20;
+				colum = 8;
+				cantCol = 5;
+			}
+			grupoEnemigo[i] = new Enemigo(colum, fila);
 			add(grupoEnemigo[i]);
+			colum += 24;
+			cantCol--;
 		}
-		posicionar(grupoEnemigo);
 		for (j in 0...2) 
 		{
 			balas[j] = new AntiBala();
@@ -100,7 +109,7 @@ class PlayState extends FlxState
 		}
 		return muyMuerto;
 	}
-	public function posicionar(?enemigos:Array<Enemigo>):Void{
+	/*public function posicionar(?enemigos:Array<Enemigo>):Void{
 		var cantCol:Int = 5;
 		var posY:Int = 24;
 		var posX:Int = -16;
@@ -112,5 +121,5 @@ class PlayState extends FlxState
 			}
 			posY += 16;
 		}
-	}
+	}*/
 }
