@@ -49,7 +49,6 @@ class Bonus extends FlxSprite
 	}*/
 	public function Mover():Void{
 		x = FlxG.height+5;
-		y = 10;
 		velocity.x = -50;
 		posicionada = false;
 		animation.play("mover");

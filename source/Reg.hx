@@ -36,17 +36,21 @@ class Reg
 			}
 		}
 	}
-	static public function posicionarEnemigos(?enemigos:Array<Enemigo>):Void{
+	static public function posicionarEnemigos(?enemigos:Array<Enemigo>, cantEnemigos:Int):Void{
+		var colum:Int = 8;
+		var fila:Int = 24;
 		var cantCol:Int = 5;
-		var posY:Int = 24;
-		var posX:Int = -16;
-		for (i in 0...enemigos.length - 1){
-			for (j in 0...cantCol){
-				posX += 24;
-				enemigos[i].x = posX;
-				enemigos[i].y = posY;
+		for (i in 0...cantEnemigos) 
+		{
+			if (cantCol == 0) 
+			{
+				fila += 20;
+				colum = 8;
+				cantCol = 5;
 			}
-			posY += 16;
+			enemigos[i] = new Enemigo(colum, fila);
+			colum += 24;
+			cantCol--;
 		}
 	}
 	

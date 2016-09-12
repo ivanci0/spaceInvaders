@@ -28,9 +28,13 @@ class PlayState extends FlxState
 		nave = new Personaje(0, FlxG.height - 16);
 		bonus = new Bonus();
 		bonus.kill();
+		Reg.posicionarEnemigos(grupoEnemigo, cantEnemigos);
+		for (i in 0...cantEnemigos){
+			add(grupoEnemigo[i]);
+		}
 		//enemPrueba = new Enemigo(40, 10);
 		//otroEnem = new Enemigo(50, 10);
-		var colum:Int = 8;
+		/*var colum:Int = 8;
 		var fila:Int = 24;
 		var cantCol:Int = 5;
 		for (i in 0...cantEnemigos) 
@@ -45,7 +49,7 @@ class PlayState extends FlxState
 			add(grupoEnemigo[i]);
 			colum += 24;
 			cantCol--;
-		}
+		}*/
 		for (j in 0...2) 
 		{
 			balas[j] = new AntiBala();
