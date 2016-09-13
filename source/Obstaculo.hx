@@ -14,7 +14,8 @@ class Obstaculo extends FlxSprite
 	{
 		super(X, Y, SimpleGraphic);
 		
-		makeGraphic(5, 5, 0xFFFF000F);
+		loadGraphic(AssetPaths.basesDestructibles__png, true, 16, 8);
+		
 		
 	}
 	

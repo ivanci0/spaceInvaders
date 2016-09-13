@@ -68,6 +68,18 @@ class Reg
 			cantCol--;
 		}
 	}
+	static public function posicionarObstaculos(?obstaculos:Array<Obstaculo>, cantObstaculos:Int):Void{
+		var colObs:Int = 3;
+		
+		for (i in 0...cantObstaculos) {
+
+			colObs += 30;
+			obstaculos[i] = new Obstaculo(colObs, FlxG.height - 29);		
+			cantObstaculos--;
+		}
+		
+		
+	}
 	/*static public function checkChange(enemigos:Array<Enemigo>):Void {
 		var cambioDireccion:Bool = false;	
 		for (i in 0...enemigos.length) 

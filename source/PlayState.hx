@@ -15,6 +15,10 @@ class PlayState extends FlxState
 	private var nave:Personaje;
 	private var bonus:Bonus;
 	private var cantEnemigos:Int = 20;
+	
+	//obstaculo
+	private var obstaculos:Array<Obstaculo> = new Array<Obstaculo>();
+	private var cantObstaculos:Int = 4;
 	//de prueba
 	//private var prueba:Int = 10;
 	//private var unNum:Int = 0;
@@ -23,6 +27,10 @@ class PlayState extends FlxState
 	//private var genRandom:FlxRandom = new FlxRandom();
 	override public function create():Void
 	{
+		Reg.posicionarObstaculos(obstaculos, cantObstaculos);
+		for (i in 0...cantEnemigos){
+			add(obstaculos[i]);
+		}
 		Reg.timer.start(5, elBonus, 0);
 		Reg.otroTimer.start(3, dispararBalas, 0);
 		super.create();
