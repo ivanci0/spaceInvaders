@@ -13,6 +13,7 @@ class Reg
 	static public var movementModifier:Bool;
 	static public var movementModifierII:Bool;
 	static public var puntaje:Int = 0;
+	static public var vidas:Int = 3;
 	static public var posicionY:Int;
 	static public var posicionX:Int;
 	static public function ColisionBala(bala:Bala,?enemigo:Array<Enemigo>=null,?bonus:Bonus=null):Void{
@@ -37,9 +38,16 @@ class Reg
 	}
 	static public function ColisionAntiBala(anti:Array<AntiBala>,personaje:Personaje):Void{
 		for (i in 0...anti.length){
-			if (FlxG.overlap(personaje,anti[i])){
+			if (FlxG.overlap(personaje, anti[i])){
+				if (vidas > 0){
 				anti[i].Posicionar();
+				vidas -= 1;
+				trace("te quedan " + vidas + " vidas");
+				} 
+				else{
 				personaje.kill();
+				trace("has muerto");
+				}
 			}
 		}
 	}
