@@ -77,4 +77,15 @@ class Reg
 			}
 		}
 	}
+	static public function mostrarPuntuacionesAltas(altos:Array<Int>, puntaje:Int){
+		var estaAlli:Bool = false;
+		for (i in 0...5){
+			if (puntaje > altos[i] && estaAlli == false){
+				altos[i] = puntaje;
+			}	
+		}
+		for (i in 0...5){
+			trace(i + "." + altos[i]);
+		}
+	}
 }

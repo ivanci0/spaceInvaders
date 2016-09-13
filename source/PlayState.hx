@@ -11,6 +11,7 @@ class PlayState extends FlxState
 {
 	private var grupoEnemigo:Array<Enemigo> = new Array<Enemigo>();
 	private var balas:Array<AntiBala> = new Array<AntiBala>();
+	private var highScores:Array<Int> = new Array<Int>;
 	private var nave:Personaje;
 	private var bonus:Bonus;
 	private var cantEnemigos:Int = 20;
