@@ -11,7 +11,7 @@ class PlayState extends FlxState
 {
 	private var grupoEnemigo:Array<Enemigo> = new Array<Enemigo>();
 	private var balas:Array<AntiBala> = new Array<AntiBala>();
-	private var highScores:Array<Int> = new Array<Int>;
+	private var highScores:Array<Int> = new Array<Int>();
 	private var nave:Personaje;
 	private var bonus:Bonus;
 	private var cantEnemigos:Int = 20;
@@ -66,7 +66,8 @@ class PlayState extends FlxState
 	}
 
 	override public function update(elapsed:Float):Void
-	{		
+	{
+		checkChange(grupoEnemigo);
 		// colisiones
 		Reg.ColisionBala(nave.getBala(), grupoEnemigo);
 		Reg.ColisionBala(nave.getBala(), bonus);
@@ -125,6 +126,41 @@ class PlayState extends FlxState
 				enemigos[i].y = posY;
 			}
 			posY += 16;
+		}
+	}
+	public function checkChange(enemigos:Array<Enemigo>) {
+		for (i in 0...enemigos.length) 
+			{
+				if (enemigos[i].x + enemigos[i].width > FlxG.width - enemigos[i].width){
+					Reg.movementModifier = false;
+					cambiarDireccion(enemigos);
+				}
+				else if (enemigos[i].x < 8){
+					Reg.movementModifier = true;
+					cambiarDireccion(enemigos);
+				}
+			}
+		/*if (Reg.cambioDireccion){
+			for (j in 0...enemigos.length){
+				enemigos[j].y += 4;
+			}
+			Reg.cambioDireccion = false;
+		}*/
+	}
+	public function cambiarDireccion(enemigos:Array<Enemigo>):Void {
+		var velocidad:Int = 4;
+		if (Reg.movementModifier) 
+		{
+			velocidad *= 1;
+		}
+		else 
+		{
+			velocidad *= -1;
+		}
+		for (i in 0...enemigos.length) 
+		{
+			enemigos[i].x += velocidad;
+			enemigos[i].y += 4;
 		}
 	}
 }

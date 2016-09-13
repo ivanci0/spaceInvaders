@@ -14,7 +14,7 @@ class Enemigo extends FlxSprite
 	private var thebadguyX:Int;
   	private var thebadguyY:Int;
   	private var thebadguyModifier:Bool;
- 	private var equalizer:Int;
+ 	private var velocidad:Int;
 	private var elTimer:FlxTimer = new FlxTimer();
 	private var reloj:Int = 2;
 	public function new(?X:Float=0, ?Y:Float=0){
@@ -25,9 +25,7 @@ class Enemigo extends FlxSprite
 		animation.add("mov2", [1], 10, false);
 		animation.add("morir", [2, 3, 4, 5], 10, false);
   		thebadguyY = 4;
- 		equalizer = 4;
-		Reg.movementModifier = true;
-		Reg.movementModifierII = false;
+ 		velocidad = 4;
 	}
 	
 	override public function update(elapsed:Float):Void{
@@ -43,7 +41,7 @@ class Enemigo extends FlxSprite
 	public function finishKill(_):Void{
 		exists = false;
 	}
-	public function Move(timer:FlxTimer):Void{
+	public function Move(timer:FlxTimer):Void {
 		if (alive){
 			if (reloj%2==0){
 				animation.play("mov");
@@ -54,23 +52,14 @@ class Enemigo extends FlxSprite
 				reloj--;
 			}
 			if (Reg.movementModifier == true){
-				x += equalizer;
+				x += velocidad;
 			}
 			if (Reg.movementModifier == false){
-				x -= equalizer;
-			}
-			if (x >= FlxG.height){
-				Reg.movementModifier = false;
-				Reg.movementModifierII = true;
-			}
-			if (x == equalizer){
-				Reg.movementModifier = true;
-				Reg.movementModifierII = true;
-			}
-			if (Reg.movementModifierII == true){
-				y += equalizer;
-				Reg.movementModifierII = false;
+				x -= velocidad;
 			}
 		}
   	}
+	public function getX():Void{
+		
+	}
 }

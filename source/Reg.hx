@@ -10,8 +10,8 @@ class Reg
 {
 	static public var timer:FlxTimer = new FlxTimer();
 	static public var otroTimer:FlxTimer = new FlxTimer();
-	static public var movementModifier:Bool;
-	static public var movementModifierII:Bool;
+	static public var movementModifier:Bool = true;
+	static public var cambioDireccion:Bool = false;
 	static public var puntaje:Int = 0;
 	static public var vidas:Int = 3;
 	static public var posicionY:Int;
@@ -41,7 +41,7 @@ class Reg
 			if (FlxG.overlap(personaje, anti[i])){
 				if (vidas > 0){
 				anti[i].Posicionar();
-				vidas -= 1;
+				vidas--;
 				trace("te quedan " + vidas + " vidas");
 				} 
 				else{
@@ -68,6 +68,26 @@ class Reg
 			cantCol--;
 		}
 	}
+	/*static public function checkChange(enemigos:Array<Enemigo>):Void {
+		var cambioDireccion:Bool = false;	
+		for (i in 0...enemigos.length) 
+		{
+			if (enemigos[i].x + enemigos[i].width > 160){
+				Reg.movementModifier = false;
+				cambioDireccion = true;
+			}
+			else if (enemigos[i].x < 8){
+				Reg.movementModifier = true;
+				cambioDireccion = true;
+			}
+		}
+		if (cambioDireccion){
+			for (j in 0...enemigos.length){
+				enemigos[j].y += 4;
+			}
+			cambioDireccion = false; 
+		}
+	}*/
 	// no se para que esta (porque no colisionarian nunca) pero la pedia el tp
 	static public function ColisionEnemigoJugador(enemigos:Array<Enemigo>,jugador:Personaje):Void{
 		for (i in 0...enemigos.length){
