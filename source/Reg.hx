@@ -12,6 +12,7 @@ class Reg
 	static public var otroTimer:FlxTimer = new FlxTimer();
 	static public var movementModifier:Bool;
 	static public var movementModifierII:Bool;
+	static public var puntaje:Int = 0;
 	static public var posicionY:Int;
 	static public var posicionX:Int;
 	static public function ColisionBala(bala:Bala,?enemigo:Array<Enemigo>=null,?bonus:Bonus=null):Void{
@@ -20,6 +21,8 @@ class Reg
 				if (FlxG.overlap(enemigo[i],bala)){
 					enemigo[i].kill();
 					bala.Posicionar();
+					puntaje += 5;
+					trace("puntaje=" + puntaje);
 				}
 			}
 		}
@@ -27,6 +30,8 @@ class Reg
 			if (FlxG.overlap(bonus,bala)){
 				bonus.kill();
 				bala.Posicionar();
+				puntaje += 30;
+				trace("puntaje=" + puntaje);
 			}
 		}
 	}
@@ -55,7 +60,6 @@ class Reg
 			cantCol--;
 		}
 	}
-	
 	// no se para que esta (porque no colisionarian nunca) pero la pedia el tp
 	static public function ColisionEnemigoJugador(enemigos:Array<Enemigo>,jugador:Personaje):Void{
 		for (i in 0...enemigos.length){

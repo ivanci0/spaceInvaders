@@ -24,7 +24,7 @@ class Enemigo extends FlxSprite
 		animation.add("mov", [0], 10, false);
 		animation.add("mov2", [1], 10, false);
 		animation.add("morir", [2, 3, 4, 5], 10, false);
-  		thebadguyY = 8;
+  		thebadguyY = 4;
  		equalizer = 4;
 		Reg.movementModifier = true;
 		Reg.movementModifierII = false;
