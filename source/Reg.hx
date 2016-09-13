@@ -8,10 +8,12 @@ import flixel.util.FlxTimer;
  */
 class Reg
 {
-	static public var movementModifier:Bool = true;
-	static public var superejeY:Int = 10;
 	static public var timer:FlxTimer = new FlxTimer();
 	static public var otroTimer:FlxTimer = new FlxTimer();
+	static public var movementModifier:Bool;
+	static public var movementModifierII:Bool;
+	static public var posicionY:Int;
+	static public var posicionX:Int;
 	static public function ColisionBala(bala:Bala,?enemigo:Array<Enemigo>=null,?bonus:Bonus=null):Void{
 		if (enemigo!=null){
 			for (i in 0...enemigo.length){
@@ -59,8 +61,8 @@ class Reg
 		for (i in 0...enemigos.length){
 			if (FlxG.overlap(enemigos[i],jugador)){
 				trace("choca" + enemigos[i]);
+				jugador.kill();
 			}
 		}
 	}
-	
 }

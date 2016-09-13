@@ -113,7 +113,7 @@ class PlayState extends FlxState
 		}
 		return muyMuerto;
 	}
-	/*public function posicionar(?enemigos:Array<Enemigo>):Void{
+	public function posicionar(?enemigos:Array<Enemigo>):Void{
 		var cantCol:Int = 5;
 		var posY:Int = 24;
 		var posX:Int = -16;
@@ -125,5 +125,5 @@ class PlayState extends FlxState
 			}
 			posY += 16;
 		}
-	}*/
+	}
 }

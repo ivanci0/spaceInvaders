@@ -19,13 +19,15 @@ class Enemigo extends FlxSprite
 	private var reloj:Int = 2;
 	public function new(?X:Float=0, ?Y:Float=0){
 		super(X, Y);
-	//	elTimer.start(1, Move, 0);
+	    elTimer.start(1, Move, 0);
 		loadGraphic(AssetPaths.singlecat__png, true, 16, 16);
 		animation.add("mov", [0], 10, false);
 		animation.add("mov2", [1], 10, false);
 		animation.add("morir", [2, 3, 4, 5], 10, false);
   		thebadguyY = 8;
  		equalizer = 4;
+		Reg.movementModifier = true;
+		Reg.movementModifierII = false;
 	}
 	
 	override public function update(elapsed:Float):Void{
@@ -41,7 +43,7 @@ class Enemigo extends FlxSprite
 	public function finishKill(_):Void{
 		exists = false;
 	}
-	/*public function Move(timer:FlxTimer):Void{
+	public function Move(timer:FlxTimer):Void{
 		if (alive){
 			if (reloj%2==0){
 				animation.play("mov");
@@ -51,24 +53,24 @@ class Enemigo extends FlxSprite
 				animation.play("mov2");
 				reloj--;
 			}
-			
 			if (Reg.movementModifier == true){
 				x += equalizer;
-				y = Reg.superejeY;
 			}
 			if (Reg.movementModifier == false){
 				x -= equalizer;
-				y = Reg.superejeY;
 			}
-			if (x >= 155){
+			if (x >= FlxG.height){
 				Reg.movementModifier = false;
-				Reg.superejeY += thebadguyY;
+				Reg.movementModifierII = true;
 			}
 			if (x == equalizer){
 				Reg.movementModifier = true;
-				Reg.superejeY += thebadguyY;
+				Reg.movementModifierII = true;
+			}
+			if (Reg.movementModifierII == true){
+				y += equalizer;
+				Reg.movementModifierII = false;
 			}
 		}
-  	}*/
-	
+  	}
 }
