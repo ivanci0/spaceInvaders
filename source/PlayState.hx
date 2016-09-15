@@ -7,69 +7,39 @@ import flixel.math.FlxRandom;
 import flixel.text.FlxText;
 import flixel.util.FlxTimer;
 
-class PlayState extends FlxState
-{
+class PlayState extends FlxState {
 	private var grupoEnemigo:Array<Enemigo> = new Array<Enemigo>();
 	private var balas:Array<AntiBala> = new Array<AntiBala>();
 	private var highScores:Array<Int> = new Array<Int>();
 	private var nave:Personaje;
 	private var bonus:Bonus;
 	private var cantEnemigos:Int = 20;
-	
-	//obstaculo
 	private var obstaculos:Array<Obstaculo> = new Array<Obstaculo>();
 	private var cantObstaculos:Int = 4;
-	//de prueba
-	//private var prueba:Int = 10;
-	//private var unNum:Int = 0;
-	//private var enemPrueba:Enemigo;
-	//private var otroEnem:Enemigo;
-	//private var genRandom:FlxRandom = new FlxRandom();
-	override public function create():Void
-	{
-		Reg.posicionarObstaculos(obstaculos, cantObstaculos);
-		for (i in 0...cantEnemigos){
+	
+	override public function create():Void{
+		super.create();
+		posicionarObstaculos(obstaculos, cantObstaculos);
+		for (i in 0...cantObstaculos){
 			add(obstaculos[i]);
 		}
 		Reg.timer.start(5, elBonus, 0);
 		Reg.otroTimer.start(3, dispararBalas, 0);
-		super.create();
 		nave = new Personaje(0, FlxG.height - 16);
-		bonus = new Bonus();
+		bonus = new Bonus(1000,1000);
 		bonus.kill();
-		Reg.posicionarEnemigos(grupoEnemigo, cantEnemigos);
+		posicionarEnemigos(grupoEnemigo, cantEnemigos);
 		for (i in 0...cantEnemigos){
 			add(grupoEnemigo[i]);
 		}
-		//enemPrueba = new Enemigo(40, 10);
-		//otroEnem = new Enemigo(50, 10);
-		/*var colum:Int = 8;
-		var fila:Int = 24;
-		var cantCol:Int = 5;
-		for (i in 0...cantEnemigos) 
-		{
-			if (cantCol == 0) 
-			{
-				fila += 20;
-				colum = 8;
-				cantCol = 5;
-			}
-			grupoEnemigo[i] = new Enemigo(colum, fila);
-			add(grupoEnemigo[i]);
-			colum += 24;
-			cantCol--;
-		}*/
 		for (j in 0...2) 
 		{
 			balas[j] = new AntiBala();
 			add(balas[j]);
 		}
-		//timer.start(10, null, 0);
 		
 		add(bonus);
  		add(nave);
-		//add(enemPrueba);
-		//add(otroEnem);
 		add(nave.getBala());
 	}
 
@@ -81,7 +51,7 @@ class PlayState extends FlxState
 		Reg.ColisionBala(nave.getBala(), bonus);
 		Reg.ColisionAntiBala(balas, nave);
 		Reg.ColisionEnemigoJugador(grupoEnemigo, nave);
-		
+		Reg.ColisionAntiBala(balas, obstaculos);
 		super.update(elapsed);
 	}
 	public function elBonus(timer:FlxTimer):Void{
@@ -90,10 +60,7 @@ class PlayState extends FlxState
 			}
 	}
 	public function dispararBalas(otroTimer:FlxTimer):Void{
-		if (todosMuertos()){
-			//no tiene que hacer nada
-		}
-		else{
+		if (!todosMuertos()) {
 			var cantBalas:Int = FlxG.random.int(1, 2);
 			var cansancio:Int = grupoEnemigo.length;
 			for (i in 0...cantBalas){
@@ -123,22 +90,30 @@ class PlayState extends FlxState
 		}
 		return muyMuerto;
 	}
-	public function posicionar(?enemigos:Array<Enemigo>):Void{
+	public function posicionarEnemigos(?enemigos:Array<Enemigo>, cantEnemigos:Int):Void{
+		var colum:Int = 8;
+		var fila:Int = 24;
 		var cantCol:Int = 5;
-		var posY:Int = 24;
-		var posX:Int = -16;
-		for (i in 0...enemigos.length - 1){
-			for (j in 0...cantCol){
-				posX += 24;
-				enemigos[i].x = posX;
-				enemigos[i].y = posY;
+		for (i in 0...cantEnemigos){
+			if (cantCol == 0){
+				fila += 20;
+				colum = 8;
+				cantCol = 5;
 			}
-			posY += 16;
+			enemigos[i] = new Enemigo(colum, fila);
+			colum += 24;
+			cantCol--;
 		}
 	}
-	public function checkChange(enemigos:Array<Enemigo>) {
-		for (i in 0...enemigos.length) 
-			{
+	public function posicionarObstaculos(?obstaculos:Array<Obstaculo>, cantObstaculos:Int):Void{
+		var colObs:Int = 20;
+		for (i in 0...cantObstaculos) {
+			obstaculos[i] = new Obstaculo(colObs, FlxG.height -30);
+			colObs += 32;
+		}
+	}
+	public function checkChange(enemigos:Array<Enemigo>){
+		for (i in 0...enemigos.length){
 				if (enemigos[i].x + enemigos[i].width > FlxG.width - enemigos[i].width){
 					Reg.movementModifier = false;
 					cambiarDireccion(enemigos);
@@ -148,25 +123,16 @@ class PlayState extends FlxState
 					cambiarDireccion(enemigos);
 				}
 			}
-		/*if (Reg.cambioDireccion){
-			for (j in 0...enemigos.length){
-				enemigos[j].y += 4;
-			}
-			Reg.cambioDireccion = false;
-		}*/
 	}
-	public function cambiarDireccion(enemigos:Array<Enemigo>):Void {
+	public function cambiarDireccion(enemigos:Array<Enemigo>):Void{
 		var velocidad:Int = 4;
-		if (Reg.movementModifier) 
-		{
+		if (Reg.movementModifier){
 			velocidad *= 1;
 		}
-		else 
-		{
+		else{
 			velocidad *= -1;
 		}
-		for (i in 0...enemigos.length) 
-		{
+		for (i in 0...enemigos.length){
 			enemigos[i].x += velocidad;
 			enemigos[i].y += 4;
 		}
