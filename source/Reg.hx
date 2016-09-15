@@ -14,16 +14,14 @@ class Reg
 	static public var cambioDireccion:Bool = false;
 	static public var puntaje:Int = 0;
 	static public var vidas:Int = 3;
-	static public var posicionY:Int;
-	static public var posicionX:Int;
+	//estas son las colisiones
 	static public function ColisionBala(bala:Bala,?enemigo:Array<Enemigo>=null,?bonus:Bonus=null):Void{
 		if (enemigo!=null){
 			for (i in 0...enemigo.length){
 				if (FlxG.overlap(enemigo[i],bala)){
 					enemigo[i].kill();
 					bala.Posicionar();
-					puntaje += 5;
-					trace("puntaje=" + puntaje);
+					puntaje += 20;
 				}
 			}
 		}
@@ -31,8 +29,7 @@ class Reg
 			if (FlxG.overlap(bonus,bala)){
 				bonus.kill();
 				bala.Posicionar();
-				puntaje += 30;
-				trace("puntaje=" + puntaje);
+				puntaje += 250;
 			}
 		}
 	}
@@ -43,11 +40,9 @@ class Reg
 					if (vidas > 0){
 						anti[i].Posicionar();
 						vidas--;
-						trace("te quedan " + vidas + " vidas");
 					}
 					else{
 						personaje.kill();
-						trace("has muerto");
 					}
 				}
 			}
@@ -67,7 +62,6 @@ class Reg
 	static public function ColisionEnemigoJugador(enemigos:Array<Enemigo>,jugador:Personaje):Void{
 		for (i in 0...enemigos.length){
 			if (FlxG.overlap(enemigos[i],jugador)){
-				trace("choca" + enemigos[i]);
 				jugador.kill();
 			}
 		}
