@@ -8,6 +8,7 @@ import flixel.util.FlxTimer;
  */
 class Reg
 {
+	static public var highScores:Array<Int> = new Array<Int>();
 	static public var timer:FlxTimer = new FlxTimer();
 	static public var otroTimer:FlxTimer = new FlxTimer();
 	static public var movementModifier:Bool = true;
@@ -109,15 +110,43 @@ class Reg
 			}
 		}
 	}
-	static public function mostrarPuntuacionesAltas(altos:Array<Int>, puntaje:Int){
-		var estaAlli:Bool = false;
+	static public function mostrarPuntuacionesAltas(altos:Array<Int>, puntaje:Int):Void{
+		var estaAlli:Bool = false; // chequea si tu puntaje coincide correctamente
+		var posicionDeGuardado:Int = 0;
+		var salvador:Array<Int> = new Array<Int>(); // salva el anterior array para reposicionamiento de sus valores
+		for (i in 0...5){
+			salvador[i] = 0;
+		}
+		// numeros feos hardcodeados para testear
+		altos[0] = 25;
+		altos[1] = 20;
+		altos[2] = 15;
+		altos[3] = 10;
+		altos[4] = 5;
 		for (i in 0...5){
 			if (puntaje > altos[i] && estaAlli == false){
+				for (w in 0...5){
+					salvador[w] = altos[w];
+				}
 				altos[i] = puntaje;
-			}	
+				estaAlli = true;
+				posicionDeGuardado = i;
+			}
 		}
+		// este quilombo es para reubicar las puntuaciones mas altas
+		if (estaAlli == true){
+		for (i in posicionDeGuardado...5){
+			for (w in posicionDeGuardado...5){
+				if (altos[w] < salvador[i] && estaAlli==true){
+					altos[w] = salvador[i];
+					estaAlli = false;
+				}
+			}
+			estaAlli = true;
+		}
+	}
 		for (i in 0...5){
-			trace(i + "." + altos[i]);
+			trace((i+1) + "." + altos[i]);
 		}
 	}
 }

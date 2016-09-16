@@ -71,6 +71,7 @@ class Personaje extends FlxSprite // un personaje "fuerte"
 	override public function kill():Void{//sobreescritura de kill(); para agregar animacion de muerte
 		alive = false; // si se muere se para el movimiento
 		FlxTween.tween(this, { }, .33, { onStart: Muriendo, onComplete: finishKill }); //crea un clon, cuando se inicia llama a muriendo y cuando termina llama a finishkill
+		Reg.mostrarPuntuacionesAltas(Reg.highScores, Reg.puntaje);
 	}
 	public function Muriendo(_):Void{//agrega la animacion para que se reprodusca antes de desaparecer
 		switch (facing){
