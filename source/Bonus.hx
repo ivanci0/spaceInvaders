@@ -11,7 +11,6 @@ import flixel.tweens.FlxTween;
  */
 class Bonus extends FlxSprite
 {
-	private var posicionada:Bool;
 	public function new(?X:Float=0, ?Y:Float=0) 
 	{
 		super(X, Y);
@@ -21,10 +20,7 @@ class Bonus extends FlxSprite
 	}
 	override public function update(elapsed:Float):Void{
 		super.update(elapsed);
-		
-		if (x + width < 0){
-			kill();
-		}
+		sePasa();
 	}
 	override public function kill():Void{
 		alive = false;
@@ -36,24 +32,19 @@ class Bonus extends FlxSprite
 	public function finishKill(_):Void{
 		exists = false;
 	}
-	override public function revive():Void 
-	{
+	override public function revive():Void{
 		super.revive();
 		Mover();
 	}
-	/*public function Posicionar():Void{
-		x = 1000;
-		y = 1000;
-		velocity.y = 0;
-		posicionada = true;
-	}*/
-	public function Mover():Void{
-		x = FlxG.height+5;
+	public function Mover():Void {
+		y = 4;
+		x = FlxG.width+width;
 		velocity.x = -50;
-		posicionada = false;
 		animation.play("mover");
 	}
-	/*public function getPosicionada():Bool{
-		return posicionada;
-	}*/
+	public function sePasa():Void{
+		if (x + width < 0){
+			kill();
+		}
+	}
 }
